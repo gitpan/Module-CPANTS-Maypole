@@ -2,11 +2,16 @@
 use strict;
 use warnings;
 
-system "echo .dump | sqlite-2.8.14.bin cpants.db > dump.data";
+# in order to use thisyou might need to change some values that
+# are specific to my system such as the name of the sqlite-... program.
+
+
+system "echo .dump | sqlite-2.8.14.bin cpants.db_original > dump.data";
 open IN, "dump.data";
 open OUT, ">changed.data";
 my $create;
 my $prereq = 1;
+my $modules = 1;
 while (<IN>) {
 
 	# removing some fancy database stuff that SQL::Parser cannot handle
@@ -17,13 +22,17 @@ while (<IN>) {
 	s/bigint/integer/;
 	s/tinyint/integer/;
 	s/date date/date varchar(30)/;
+	s/not null//;
+	next if /^INSERT INTO authors VALUES\(NULL,NULL,NULL,0,0\);/;
 
 
 	if ($create) {
 		if ($create eq "prereq") {
 			print OUT "  id integer primary key,\n",
+		} elsif ($create eq "modules") {
+			print OUT "  id integer primary key,\n",
 		} else {
-			s/,/ primary key,/;
+			s/,/ primary key,/; # set the first column of every table except the above 2 
 		}
 	}
 	$create = '' if $create; # reset so we do it only once
@@ -34,6 +43,9 @@ while (<IN>) {
 
 	if (s/^(INSERT INTO prereq VALUES\()/$1$prereq,/) {
 		$prereq++;
+	}
+	if (s/^(INSERT INTO modules VALUES\()/$1$modules,/) {
+		$modules++;
 	}
 
 	s/(INSERT INTO authors VALUES\('[^']*','[^']*',')[^']+/$1/;
@@ -46,6 +58,3 @@ close OUT;
 
 unlink "cpants.db";
 system "sqlite-2.8.14.bin cpants.db < changed.data";
-
-# set the first column of every table to be the   "primary key"
-#

@@ -3,13 +3,14 @@ use strict;
 use warnings;
 use Cwd qw(cwd);
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use base 'CGI::Maypole';
 BEGIN {
 	Module::CPANTS::Maypole->setup("dbi:SQLite:dbname=../../db/cpants.db");
 }
 Module::CPANTS::Maypole->config->{rows_per_page} = 10;
+Module::CPANTS::Maypole->config->{uri_base} = "http://$ENV{HTTP_HOST}/";  # I need this for the search buttons..
 
 Module::CPANTS::Maypole::Cpan->has_a(cpanid => "Module::CPANTS::Maypole::Authors");
 Module::CPANTS::Maypole::Authors->has_many(cpans => "Module::CPANTS::Maypole::Cpan");
@@ -20,6 +21,8 @@ Module::CPANTS::Maypole::Distribution->has_many(prerequisites => "Module::CPANTS
 #Module::CPANTS::Maypole::Cpan->has_a(dist => "Module::CPANTS::Maypole::Distribution");
 #Module::CPANTS::Maypole::Distribution->has_a(dist => "Module::CPANTS::Maypole::Cpan");
 
+Module::CPANTS::Maypole::Modules->has_a(dist => "Module::CPANTS::Maypole::Distribution");
+Module::CPANTS::Maypole::Distribution->has_many(module => "Module::CPANTS::Maypole::Modules");
 
 sub authenticate {
 	my ($self, $r) = @_;
