@@ -1,0 +1,32 @@
+[% PROCESS macros %]
+[% INCLUDE header %]
+
+<H3>Kwalitee Distribution</H3>
+<TABLE border="1">
+<TR>
+  <TD>Kwalitee Level</TD>
+  <TD>Distribution</TD>
+</TR>
+[% FOR item = kwalitee_distribution %]
+<TR>
+   <TD>[% item.kwalitee %]</TD>
+   <TD>[% item.cnt %]</TD>
+</TR>
+[% END; %]
+</TABLE>
+
+<p>
+META.yml: [% meta_yml %] Total number of distributions: [% total %] That is [% meta_yml_perc %]% having META.yml
+</p>
+<p>
+This year:
+META.yml: [% meta_yml_2004 %] Total number of distributions: [% total_2004 %] That is [% meta_yml_perc_2004 %]% having META.yml
+</p>
+<table border="1">
+<tr><td>Makefile.PL</td><td>[% make %]</td></tr>
+<tr><td>Build.PL</td><td>[% build %]</td></tr>
+<tr><td>Both</td><td>[% build_and_make %]</td></tr>
+<tr><td>Non</td><td>[% no_buildtool %]</td></tr>
+</table>
+[% INCLUDE footer %]
+

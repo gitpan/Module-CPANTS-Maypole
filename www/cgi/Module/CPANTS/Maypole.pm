@@ -3,26 +3,41 @@ use strict;
 use warnings;
 use Cwd qw(cwd);
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use base 'CGI::Maypole';
-BEGIN {
+#BEGIN {
 	Module::CPANTS::Maypole->setup("dbi:SQLite:dbname=../../db/cpants.db");
-}
+#}
 Module::CPANTS::Maypole->config->{rows_per_page} = 10;
 Module::CPANTS::Maypole->config->{uri_base} = "http://$ENV{HTTP_HOST}/";  # I need this for the search buttons..
+#push @{Module::CPANTS::Maypole->config->{classes}}, "Module::CPANTS::Maypole::Stats";
+#push @{Module::CPANTS::Maypole->config->{tables}}, "stats";
+#$Module::CPANTS::Maypole->{config}->{loader}->{CLASSES}->{stats} = "Module::CPANTS::Maypole::Stats";
+use Data::Dumper;
+my $h = Module::CPANTS::Maypole->config;
+#warn $h;
+#warn Dumper $h;
 
 Module::CPANTS::Maypole::Dist->has_a(author => "Module::CPANTS::Maypole::Authors");
 Module::CPANTS::Maypole::Authors->has_many(distributions => "Module::CPANTS::Maypole::Dist");
 
 Module::CPANTS::Maypole::Kwalitee->has_a(distid => "Module::CPANTS::Maypole::Dist");
 Module::CPANTS::Maypole::Prereq->has_a(distid => "Module::CPANTS::Maypole::Dist");
-#Module::CPANTS::Maypole::Modules_in_dist->has_a(distid => "Module::CPANTS::Maypole::Dist");
+
+Module::CPANTS::Maypole::ModulesInDist->has_a(distid => "Module::CPANTS::Maypole::Dist");
+Module::CPANTS::Maypole::Dist->has_a(modules => "Module::CPANTS::Maypole::ModulesInDist");
+
+Module::CPANTS::Maypole::Authors->require;
+Module::CPANTS::Maypole::Stats->require;
+
+#warn "loaded";
 
 sub authenticate {
 	my ($self, $r) = @_;
 	
-	if ($r->action !~ /^(list|view|search)$/) {
+	#warn $r->action;
+	if ($r->action !~ /^(list|view|search|all|show)$/) {
 		$r->template("error");
 		$r->{template_args}{error_message} = "This is a read-only database. 
 		If you really want to change the ratings of your module, go write some more tests and documentation.";
@@ -37,7 +52,7 @@ sub get_template_root {
 	return "$pwd/../templates";
 }
 
-=head1 TITLE
+=head1 NAME
 
 Module::CPANTS::Maypole - Web interface to the CPANTS database using Maypole
 

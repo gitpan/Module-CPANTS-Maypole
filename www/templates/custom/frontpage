@@ -12,6 +12,7 @@
 </TR>
 [% END %]
 </TABLE>
+<center><a href="/authors/show">Statistics</a></center>
 
 <BR>
 [% INCLUDE footer %]

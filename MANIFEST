@@ -6,7 +6,11 @@ MANIFEST			This list of files
 META.yml
 www/cgi/cpants.pl
 www/cgi/Module/CPANTS/Maypole.pm
+www/cgi/Module/CPANTS/Maypole/Authors.pm
+
+
 www/cgi/Maypole/View/Base.pm
+
 www/cpants.css
 www/robots.txt
 www/templates/custom/error
@@ -27,4 +31,8 @@ www/templates/factory/navbar
 www/templates/factory/pager
 www/templates/factory/search_form
 www/templates/factory/view
+
+www/templates/authors/show
+www/templates/authors/view
+
 t/01-nothing.t

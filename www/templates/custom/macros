@@ -105,6 +105,18 @@ MACRO view_related(object) BLOCK;
         "</UL>";
     END; 
 END;
+ 
+MACRO view_related_authors(object) BLOCK;
+    FOR accessor = classmetadata.related_accessors.list;
+        "<H3>"; accessor | ucfirst; "</H3>\n";
+        "<UL id=\"vlist\">";
+        FOR thing = object.$accessor;
+            "<LI>"; maybe_link_view(thing); "</LI>\n";
+        END;
+        "</UL>";
+    END; 
+END;
+
 
 MACRO test_xxxx(myblock) BLOCK;
     FOR col = classmetadata.columns;
