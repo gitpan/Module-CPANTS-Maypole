@@ -1,0 +1,16 @@
+TITLE
+    Module::CPANTS::Maypole - Web interface to the CPANTS database using
+    Maypole
+
+Description
+     The database schema used now is not fully supported by SQL::Parser hence we had to
+     changed the schema a bit. This is being done in the db/clean.pl script.
+
+     Besides this code is being reliesed mainly so that other people can look at it commend on
+     it and send patches.
+
+Author
+     Module::CPANTS is being developed by Thomas Klausner
+
+     This front end was written by Gabor Szabo
+

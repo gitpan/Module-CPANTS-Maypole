@@ -1,0 +1,10 @@
+   [% INCLUDE header %]
+
+
+	<center>
+    [% IF error_message %]
+       <FONT COLOR="#FF0000"> [% error_message %] </FONT>
+    [% END %]
+	</center>
+
+   [% INCLUDE footer %]

@@ -1,0 +1,17 @@
+[% INCLUDE header %]
+
+<h2>Web front-end for the CPANTS database</h2>
+
+
+<TABLE BORDER="0" ALIGN="center" WIDTH="70%">
+[% FOR table = config.display_tables %]
+<TR>
+<TD>
+<A HREF="[%table%]/list">List by [%table %]</A>
+</TD>
+</TR>
+[% END %]
+</TABLE>
+
+<BR>
+[% INCLUDE footer %]
