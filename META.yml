@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Module-CPANTS-Maypole
-version: 0.03
+version: 0.04
 author: Gabor Szabo <gabor@pti.co.il>
 abstract: Web front-end to the CPANTS database using Maypole
 license: perl

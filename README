@@ -6,11 +6,13 @@ Description
      The database schema used now is not fully supported by SQL::Parser hence we had to
      changed the schema a bit. This is being done in the db/clean.pl script.
 
-     Besides this code is being reliesed mainly so that other people can look at it commend on
-     it and send patches.
-
+     To access the database visit L<http://cpants.szabgab.com/>
+ 
+     This code is being released to CPAN mainly so that other people can look at it, 
+     comment on it and send patches.
+ 
 Author
-     Module::CPANTS is being developed by Thomas Klausner
+     Module::CPANTS is being developed by Thomas Klausner L<http://cpants.dev.zsi.at/>
 
-     This front end was written by Gabor Szabo
+     This front end was written by Gabor Szabo L<http://www.szabgab.com/>
 

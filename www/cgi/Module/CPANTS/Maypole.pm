@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Cwd qw(cwd);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use base 'CGI::Maypole';
 BEGIN {
@@ -12,25 +12,15 @@ BEGIN {
 Module::CPANTS::Maypole->config->{rows_per_page} = 10;
 Module::CPANTS::Maypole->config->{uri_base} = "http://$ENV{HTTP_HOST}/";  # I need this for the search buttons..
 
-Module::CPANTS::Maypole::Cpan->has_a(cpanid => "Module::CPANTS::Maypole::Authors");
-Module::CPANTS::Maypole::Authors->has_many(cpans => "Module::CPANTS::Maypole::Cpan");
+Module::CPANTS::Maypole::Dist->has_a(author => "Module::CPANTS::Maypole::Authors");
+Module::CPANTS::Maypole::Authors->has_many(distributions => "Module::CPANTS::Maypole::Dist");
 
-Module::CPANTS::Maypole::Prereq->has_a(dist => "Module::CPANTS::Maypole::Distribution");
-Module::CPANTS::Maypole::Distribution->has_many(prerequisites => "Module::CPANTS::Maypole::Prereq");
-
-#Module::CPANTS::Maypole::Cpan->has_a(dist => "Module::CPANTS::Maypole::Distribution");
-#Module::CPANTS::Maypole::Distribution->has_a(dist => "Module::CPANTS::Maypole::Cpan");
-
-Module::CPANTS::Maypole::Modules->has_a(dist => "Module::CPANTS::Maypole::Distribution");
-Module::CPANTS::Maypole::Distribution->has_many(module => "Module::CPANTS::Maypole::Modules");
+Module::CPANTS::Maypole::Kwalitee->has_a(distid => "Module::CPANTS::Maypole::Dist");
+Module::CPANTS::Maypole::Prereq->has_a(distid => "Module::CPANTS::Maypole::Dist");
+#Module::CPANTS::Maypole::Modules_in_dist->has_a(distid => "Module::CPANTS::Maypole::Dist");
 
 sub authenticate {
 	my ($self, $r) = @_;
-	
-#	if ($r->{table} eq "prereq") {
-#		$r->template("error");
-#		$r->{template_args}{error_message} = "Unfortunately we cannot currently display the Prereq table";
-#	}
 	
 	if ($r->action !~ /^(list|view|search)$/) {
 		$r->template("error");
@@ -56,15 +46,17 @@ Module::CPANTS::Maypole - Web interface to the CPANTS database using Maypole
  The database schema used now is not fully supported by SQL::Parser hence we had to
  changed the schema a bit. This is being done in the db/clean.pl script.
 
- Besides this code is being reliesed mainly so that other people can look at it commend on
- it and send patches.
+ To access the database visit L<http://cpants.szabgab.com/>
+ 
+ This code is being released to CPAN mainly so that other people can look at it, 
+ comment on it and send patches.
+ 
 
 =head1 Author
 
- Module::CPANTS is being developed by Thomas Klausner
+ Module::CPANTS is being developed by Thomas Klausner L<http://cpants.dev.zsi.at/>
 
- This front end was written by Gabor Szabo
-
+ This front end was written by Gabor Szabo L<http://www.szabgab.com/>
 
 =cut
 
